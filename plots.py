@@ -21,7 +21,7 @@ fluid = iapws.IAPWS97
 
 # Define kind of plot
 xAxis = "s"
-yAxis = "P"
+yAxis = "h"
 
 # Point count for line, high value get more definition but slow calculate time
 points = 50
@@ -291,19 +291,19 @@ if xAxis != "s" and yAxis != "s":
         S_["%s" % s]["x"] = x
         S_["%s" % s]["y"] = y
 
-# Calculate isochor lines
-if xAxis != "v" and yAxis != "v":
-    print("Calculating isochor lines...")
-    for v in isov:
-        print("    v=%s" % v)
-        pts = [iapws.IAPWS95(T=t, v=v) for t in Tl]
-        x = []
-        y = []
-        for p in pts:
-            if p.status:
-                x.append(p.__getattribute__(xAxis))
-                y.append(p.__getattribute__(yAxis))
-        plt.plot(x, y, **isov_kw)
+# # Calculate isochor lines
+# if xAxis != "v" and yAxis != "v":
+    # print("Calculating isochor lines...")
+    # for v in isov:
+        # print("    v=%s" % v)
+        # pts = [iapws.IAPWS95(T=t, v=v) for t in Tl]
+        # x = []
+        # y = []
+        # for p in pts:
+            # if p.status:
+                # x.append(p.__getattribute__(xAxis))
+                # y.append(p.__getattribute__(yAxis))
+        # plt.plot(x, y, **isov_kw)
 
 
 # Plot region limits
@@ -333,7 +333,7 @@ for q in isoq:
     x = Q["%s" % q]["x"]
     y = Q["%s" % q]["y"]
 
-    txt = "x=%s" % q
+    txt = "x=%2.1f" % q
     i = 0
     j = i+1
 
@@ -369,7 +369,7 @@ if xAxis != "T" and yAxis != "T":
         else:
             fy = (y[i]-y[j])/(ymax-ymin)
         rot = atan(fy/fx)*360/2/pi
-        plt.annotate(txt, (x[i], y[i]), rotation=rot, **labelT_kw)
+        plt.annotate(txt.decode("utf8"), (x[i], y[i]), rotation=rot, **labelT_kw)
 
 if xAxis != "P" and yAxis != "P":
     for P in isoP:
